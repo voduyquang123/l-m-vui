@@ -1,0 +1,86 @@
+﻿@model MvcBookStore.Models.SACH
+
+@{
+    ViewBag.Title = "Xoasach";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Xóa sách</h3>
+
+<h3 style="color:red">Không thể khôi phục sau khi xóa!Xác nhận xóa?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên sách:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tensach)
+        </dd>
+
+        <dt>
+            Giá bán:
+        </dt>
+
+        <dd>
+            @String.Format("{0:#,##0}", Model.Giaban) VNĐ
+        </dd>
+
+        <dt>
+            Mô tả:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mota)
+        </dd>
+
+        <dt>
+            Ảnh bìa
+        </dt>
+
+        <dd>
+            <img src="@Url.Content("~/images/anhsp/" + Model.Anhbia)" width="120px" />
+        </dd>
+
+        <dt>
+            Ngày cập nhật:
+        </dt>
+
+        <dd>
+            @String.Format("{0:dd/MM/yyyy}", Model.Ngaycapnhat)
+        </dd>
+
+        <dt>
+            Số lượng tồn:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Soluongton)
+        </dd>
+        <dt>
+            Loại sách:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loai.TenLoai)
+        </dd>
+        <dt>
+            Nhà xuất bản:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NHAXUATBAN.TenNXB)
+        </dd>
+
+    </dl>
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+<div class="form-actions no-color">
+    <input type="submit" value="Xóa" class="btn btn-default" /> |
+    @Html.ActionLink("Sửa", "Suasach", new { id = Model.Masach }) |
+    @Html.ActionLink("Quay lại", "Index")
+</div>
+    }
+</div>

@@ -1,0 +1,93 @@
+﻿@using MvcBookStore.Models
+@model List<Giohang>
+@{
+    ViewBag.Title = "Xác Nhận Đặt Hàng";
+    Layout = "~/Views/Shared/_LayoutUser.cshtml";
+}
+<style>
+    h2 {
+        text-align: center;
+    }
+    tr, td {
+        text-align: center;
+        font-weight: bold;
+        border: 1px solid black
+    }
+
+    table {
+        text-align: center;
+        border: 1px solid black;
+    }
+
+    #imggh {
+        width: 100px;
+        height: 150px;
+    }
+
+    a {
+        font-weight: bold;
+    }
+</style>
+<h2>Thông Tin Sản Phẩm</h2>
+<table>
+    <tr>
+        <td>Tên Sách</td>
+        <td>Ảnh Bìa</td>
+        <td>Số Lượng</td>
+        <td>Đơn Giá</td>
+        <td>Thành Tiền</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.sTensach</td>
+            <td><img id="imggh" src="~/images/anhsp/@item.sAnhbia" /></td>
+            @using (Html.BeginForm("CapnhatGiohang", "Giohang", new { @iMaSp = item.iMasach }))
+            {
+                <td>
+                    @item.iSoluong
+                </td>
+                <td>@String.Format("{0:#,##0}", item.dDonggia)</td>
+                <td>@String.Format("{0:#,##0}", item.dThanhtien)</td>
+            }
+        </tr>
+    }
+    <tr>
+        <td colspan="5" class="text-primary">
+            @Html.ActionLink("Trở về Giỏ Hàng", "GioHang", "Giohang")
+        </td>
+    </tr>
+</table>
+<h2>Thông Tin Đặt Hàng</h2>
+@{
+    KHACHHANG kh = (KHACHHANG)Session["Taikhoan"];
+}
+<table>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+    <tr>
+        <td>Họ tên khách hàng:</td>
+        <td>@kh.HoTen</td>
+    </tr>
+        <tr>
+            <td>Địa chỉ:</td>
+            <td>@kh.DiachiKH</td>
+        </tr>
+        <tr>
+            <td>Điện thoại:</td>
+            <td>@kh.DienthoaiKH</td>
+        </tr>
+        <tr>
+            <td>Ngày đặt:</td>
+            <td>@DateTime.Now.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <td>Ngày giao hàng:</td>
+            <td><input type="date" name="Ngaygiao" /></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Đồng ý đặt hàng" /></td>
+        </tr>
+    }
+</table>

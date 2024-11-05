@@ -1,0 +1,109 @@
+﻿@using MvcBookStore.Models
+@using PagedList.Mvc;
+@model PagedList.PagedList<MvcBookStore.Models.DONDATHANG>
+@{
+    ViewBag.Title = "Quản lí đơn hàng";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<style>
+    tr, td, th {
+        text-align: center;
+        font-weight: bold;
+        border: 1px solid black;
+    }
+
+    table {
+        border: 1px solid black;
+    }
+
+    #imggh {
+        width: 100px;
+        height: 150px;
+    }
+
+    a {
+        font-weight: bold;
+    }
+
+    .Trang li {
+        display: inline;
+        letter-spacing: 20px;
+    }
+
+    .Trang a:active {
+        background-color: green;
+        text-decoration-color: green;
+    }
+
+    #more {
+        border: 0px solid black;
+        width: 300px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+
+<table>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Thanh toán</th>
+        <th>Trạng thái đơn hàng</th>
+        <th>Ngày đặt</th>
+        <th>Ngày giao</th>
+        <th>Tên người dùng</th>
+        <th style="width:80px">Thao Tác</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.MaDonHang)
+    </td>
+    <td class="text-center">
+        @{if (item.Dathanhtoan == true)
+            {
+                <font color='green'>Đã thanh toán</font>
+            }
+            else
+            {
+                <font color='red'>Chưa thanh toán</font>
+            }
+        }
+    </td>
+    <td class="text-center">
+        @{if (item.Tinhtranggiaohang == true)
+            {
+                <font color='green'>Đã giao hàng</font>
+            }
+            else
+            {
+                <font color='red'>Chưa giao hàng</font>
+            }
+        }
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ngaydat)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Ngaygiao)
+    </td>
+    <td>
+        @Html.ActionLink(item.KHACHHANG.Taikhoan, "Chitietnguoidung", new { id = item.MaKH })
+    </td>
+    <td>
+        @Html.ActionLink("Sửa", "Suadon", new { id = item.MaDonHang })
+        <br />
+        @Html.ActionLink("Chi tiết", "Chitietdonhang", new { id = item.MaDonHang })
+    </td>
+</tr>
+    }
+</table>
+<div class="Trang">
+    Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("DonHang", new { page = page }))
+</div>
